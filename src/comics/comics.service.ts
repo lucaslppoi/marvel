@@ -36,4 +36,9 @@ export class ComicsService {
     const allComics = await this.comicsModel.find().exec();
     return allComics.length
   }
+
+  async findRandomly(): Promise<Comics> {
+    const allComics = await this.comicsModel.find().exec();
+    return allComics[Math.floor(Math.random() * allComics.length)];
+  }
 }

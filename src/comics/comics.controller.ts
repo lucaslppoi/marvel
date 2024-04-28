@@ -13,7 +13,7 @@ import { UpdateComicsDto } from './dto/update-comics-dto';
 
 @Controller('comics')
 export class ComicsController {
-  constructor(private readonly comicsService: ComicsService) {}
+  constructor(private readonly comicsService: ComicsService) { }
 
   @Post()
   create(@Body() createComicsDto: CreateComicsDto) {
@@ -43,5 +43,10 @@ export class ComicsController {
   @Get('/quantity')
   countQuantity() {
     return this.comicsService.countQuantity();
+  }
+
+  @Get('/random')
+  findRandomly() {
+    return this.comicsService.findRandomly();
   }
 }
