@@ -9,7 +9,7 @@ import { InjectModel } from '@nestjs/mongoose';
 export class CreatorsService {
   constructor(
     @InjectModel(Creator.name) private creatorModel: Model<Creator>,
-  ) { }
+  ) {}
 
   async create(createCreatorDto: CreateCreatorDto): Promise<Creator> {
     const createdCreator = new this.creatorModel(createCreatorDto);
@@ -33,5 +33,9 @@ export class CreatorsService {
 
   async remove(id: string): Promise<Creator> {
     return await this.creatorModel.findByIdAndDelete(id);
+  }
+
+  async findComicsByCreator(id: string) {
+    return (await this.creatorModel.findById(id)).comics;
   }
 }

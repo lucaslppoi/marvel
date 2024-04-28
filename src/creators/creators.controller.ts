@@ -13,7 +13,7 @@ import { UpdateCreatorDto } from './dto/update-creator.dto';
 
 @Controller('creators')
 export class CreatorsController {
-  constructor(private readonly creatorsService: CreatorsService) { }
+  constructor(private readonly creatorsService: CreatorsService) {}
 
   @Post()
   create(@Body() createCreatorDto: CreateCreatorDto) {
@@ -38,5 +38,10 @@ export class CreatorsController {
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.creatorsService.remove(id);
+  }
+
+  @Delete(':id')
+  findComicsByCreator(@Param('id') id: string) {
+    return this.creatorsService.findComicsByCreator(id);
   }
 }
