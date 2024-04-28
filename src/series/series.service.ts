@@ -1,24 +1,25 @@
 import { Injectable } from '@nestjs/common';
 import { CreateSeriesDto } from './dto/create-series.dto';
 import { UpdateSeriesDto } from './dto/update-series.dto';
-import { HttpService } from '@nestjs/axios';
 import { writeFile } from 'fs/promises';
 import { title } from 'process';
-// const fs = require('fs').promises;
-// import * as fs from 'fs';
 import { promises as fs } from 'fs';
-import fetch from 'node-fetch';
 
 
 @Injectable()
 export class SeriesService {
-  constructor(private readonly httpService: HttpService) { }
   private apiKey = 'ts=1&apikey=d48b7eba9663ff346171fa4dd833116f&hash=b51089b18383b373ba39e34a64f7787a';
 
   async create(name: string) {
     const response = await fetch(`https://gateway.marvel.com:443/v1/public/series?title=${name}&limit=1&${this.apiKey}`)
-    const data = await response.json()
+    const data = await response.json();
+    const dataURLMapped = await this.mapSerie(data);
+    await fs.writeFile('src/series/data/serie.json', JSON.stringify(dataURLMapped[0], null, 4), 'utf-8');
 
+    await Promise.all([this.mapComics(), this.mapCharacters(), this.mapCreators()]);
+  }
+
+  private async mapSerie(data: any) {
     const dataURLMapped = await Promise.all(data.data.results.map(async result => {
       const characterURL = result.characters.items.map(character => {
         return {
@@ -50,13 +51,7 @@ export class SeriesService {
       }
     }))
 
-
-    await fs.writeFile('src/series/data/serie.json', JSON.stringify(dataURLMapped[0], null, 4), 'utf-8');
-
-    await this.mapComics()
-    await this.mapCharacters()
-    await this.mapCreators()
-
+    return dataURLMapped
   }
 
   async mapComics() {
@@ -68,6 +63,7 @@ export class SeriesService {
       const comicsData = await comicsResponse.json()
       return await comicsData.data.results.map(info => {
         return {
+          id: info.id,
           title: info.title,
           description: info.description,
           thumbnail: info.thumbnail.path,
@@ -87,6 +83,7 @@ export class SeriesService {
       const charactersData = await charactersResponse.json()
       return await charactersData.data.results.map(info => {
         return {
+          id: info.id,
           name: info.name,
           description: info.description,
           thumbnail: info.thumbnail.path,
@@ -116,6 +113,7 @@ export class SeriesService {
       })
       return creatorsData.data.results.map(info => {
         return {
+          id: info.id,
           name: info.fullName,
           role: creator.role,
           comics: comicsRelated

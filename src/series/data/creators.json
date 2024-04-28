@@ -1,6 +1,7 @@
 [
     [
         {
+            "id": 8522,
             "name": "Gabriele Dell'otto",
             "role": "penciller (cover)",
             "comics": [
@@ -29,6 +30,7 @@
     ],
     [
         {
+            "id": 400,
             "name": "Keith Giffen",
             "role": "writer",
             "comics": [
@@ -61,6 +63,7 @@
     ],
     [
         {
+            "id": 361,
             "name": "Cory Petit",
             "role": "letterer",
             "comics": [
@@ -93,6 +96,7 @@
     ],
     [
         {
+            "id": 12980,
             "name": "Vc Cory Petit",
             "role": "letterer",
             "comics": []
@@ -100,6 +104,7 @@
     ],
     [
         {
+            "id": 475,
             "name": "Laura Villari",
             "role": "colorist",
             "comics": [
@@ -132,6 +137,7 @@
     ],
     [
         {
+            "id": 474,
             "name": "Andrea DI Vito",
             "role": "penciller",
             "comics": [

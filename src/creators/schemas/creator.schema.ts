@@ -6,13 +6,16 @@ export type CreatorDocument = HydratedDocument<Creator>;
 @Schema()
 export class Creator {
     @Prop()
+    id: number;
+
+    @Prop()
     name: string;
 
     @Prop()
-    age: number;
+    role: string;
 
     @Prop()
-    breed: string;
+    comics: string[];
 }
 
 export const CreatorSchema = SchemaFactory.createForClass(Creator);
