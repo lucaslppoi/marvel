@@ -10,7 +10,9 @@ import {
 import { CharactersService } from './characters.service';
 import { CreateCharactersDto } from './dto/create-characters-dto';
 import { UpdateCharactersDto } from './dto/update-characters-dto';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('characters')
 @Controller('characters')
 export class CharactersController {
   constructor(private readonly charactersService: CharactersService) {}
