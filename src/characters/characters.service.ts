@@ -9,7 +9,7 @@ import { UpdateCharactersDto } from './dto/update-characters-dto';
 export class CharactersService {
   constructor(
     @InjectModel(Characters.name) private characterModel: Model<Characters>,
-  ) {}
+  ) { }
 
   async create(createCharactersDto: CreateCharactersDto): Promise<Characters> {
     const createdCharacter = new this.characterModel(createCharactersDto);
@@ -33,5 +33,10 @@ export class CharactersService {
 
   async remove(id: string): Promise<Characters> {
     return await this.characterModel.findByIdAndDelete(id);
+  }
+
+  async findRandomly(): Promise<Characters> {
+    const allCharacters = await this.characterModel.find().exec();
+    return allCharacters[Math.floor(Math.random() * allCharacters.length)]
   }
 }

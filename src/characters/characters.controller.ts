@@ -13,7 +13,7 @@ import { UpdateCharactersDto } from './dto/update-characters-dto';
 
 @Controller('characters')
 export class CharactersController {
-  constructor(private readonly charactersService: CharactersService) {}
+  constructor(private readonly charactersService: CharactersService) { }
 
   @Post()
   create(@Body() createCharactersDto: CreateCharactersDto) {
@@ -25,7 +25,7 @@ export class CharactersController {
     return this.charactersService.findAll();
   }
 
-  @Get(':id')
+  @Get('/id/:id')
   findById(@Param('id') id: string) {
     return this.charactersService.findById(id);
   }
@@ -42,4 +42,10 @@ export class CharactersController {
   remove(@Param('id') id: string) {
     return this.charactersService.remove(id);
   }
+
+  @Get('/random')
+  findRandomly() {
+    return this.charactersService.findRandomly();
+  }
+
 }

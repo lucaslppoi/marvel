@@ -13,7 +13,7 @@ import { UpdateCreatorDto } from './dto/update-creator.dto';
 
 @Controller('creators')
 export class CreatorsController {
-  constructor(private readonly creatorsService: CreatorsService) {}
+  constructor(private readonly creatorsService: CreatorsService) { }
 
   @Post()
   create(@Body() createCreatorDto: CreateCreatorDto) {
@@ -25,7 +25,7 @@ export class CreatorsController {
     return this.creatorsService.findAll();
   }
 
-  @Get(':id')
+  @Get('/id/:id')
   findById(@Param('id') id: string) {
     return this.creatorsService.findById(id);
   }

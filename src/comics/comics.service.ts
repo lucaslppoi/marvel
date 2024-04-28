@@ -9,7 +9,7 @@ import { UpdateComicsDto } from './dto/update-comics-dto';
 export class ComicsService {
   constructor(
     @InjectModel(Comics.name) private readonly comicsModel: Model<Comics>,
-  ) {}
+  ) { }
 
   async create(createComicsDto: CreateComicsDto): Promise<Comics> {
     const createdCreator = new this.comicsModel(createComicsDto);
@@ -30,5 +30,10 @@ export class ComicsService {
 
   async remove(id: string): Promise<Comics> {
     return await this.comicsModel.findByIdAndDelete(id);
+  }
+
+  async countQuantity(): Promise<number> {
+    const allComics = await this.comicsModel.find().exec();
+    return allComics.length
   }
 }

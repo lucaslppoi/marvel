@@ -13,7 +13,7 @@ import { UpdateComicsDto } from './dto/update-comics-dto';
 
 @Controller('comics')
 export class ComicsController {
-  constructor(private readonly comicsService: ComicsService) {}
+  constructor(private readonly comicsService: ComicsService) { }
 
   @Post()
   create(@Body() createComicsDto: CreateComicsDto) {
@@ -25,7 +25,7 @@ export class ComicsController {
     return this.comicsService.findAll();
   }
 
-  @Get(':id')
+  @Get('/id/:id')
   findById(@Param('id') id: string) {
     return this.comicsService.findById(id);
   }
@@ -39,4 +39,10 @@ export class ComicsController {
   remove(@Param('id') id: string) {
     return this.comicsService.remove(id);
   }
+
+  @Get('/quantity')
+  countQuantity() {
+    return this.comicsService.countQuantity();
+  }
+
 }
