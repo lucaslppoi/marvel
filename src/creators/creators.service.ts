@@ -4,6 +4,8 @@ import { UpdateCreatorDto } from './dto/update-creator.dto';
 
 @Injectable()
 export class CreatorsService {
+  constructor() {}
+
   create(createCreatorDto: CreateCreatorDto) {
     return 'This action adds a new creator';
   }
