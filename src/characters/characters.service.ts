@@ -9,7 +9,7 @@ import { UpdateCharactersDto } from './dto/update-characters-dto';
 export class CharactersService {
   constructor(
     @InjectModel(Characters.name) private characterModel: Model<Characters>,
-  ) { }
+  ) {}
 
   async create(createCharactersDto: CreateCharactersDto): Promise<Characters> {
     const createdCharacter = new this.characterModel(createCharactersDto);
@@ -37,6 +37,14 @@ export class CharactersService {
 
   async findRandomly(): Promise<Characters> {
     const allCharacters = await this.characterModel.find().exec();
-    return allCharacters[Math.floor(Math.random() * allCharacters.length)]
+    return allCharacters[Math.floor(Math.random() * allCharacters.length)];
+  }
+
+  async findByName(name: string) {
+    return await this.characterModel.findOne({ name });
+  }
+
+  async getThunbnail(id: string) {
+    return (await this.characterModel.findById(id)).thumbnail;
   }
 }

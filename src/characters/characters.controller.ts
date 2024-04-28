@@ -13,7 +13,7 @@ import { UpdateCharactersDto } from './dto/update-characters-dto';
 
 @Controller('characters')
 export class CharactersController {
-  constructor(private readonly charactersService: CharactersService) { }
+  constructor(private readonly charactersService: CharactersService) {}
 
   @Post()
   create(@Body() createCharactersDto: CreateCharactersDto) {
@@ -48,4 +48,13 @@ export class CharactersController {
     return this.charactersService.findRandomly();
   }
 
+  @Get('/findByName/:name')
+  findByName(@Param('name') name: string) {
+    return this.charactersService.findByName(name);
+  }
+
+  @Get('/getThunbnail/:id')
+  getThunbnail(@Param('id') id: string) {
+    return this.charactersService.getThunbnail(id);
+  }
 }
