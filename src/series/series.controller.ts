@@ -14,7 +14,7 @@ export class SeriesController {
 
   @Get()
   findAll() {
-    return this.seriesService.mapCreators();
+    return this.seriesService.saveData();
   }
 
   // @Get(':id')

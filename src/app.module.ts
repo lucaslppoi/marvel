@@ -13,7 +13,5 @@ import { CharactersModule } from './characters/characters.module';
     ComicsModule,
     CharactersModule
   ],
-  controllers: [],
-  providers: [],
 })
 export class AppModule { }

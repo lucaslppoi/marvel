@@ -4,10 +4,18 @@ import { UpdateSeriesDto } from './dto/update-series.dto';
 import { writeFile } from 'fs/promises';
 import { title } from 'process';
 import { promises as fs } from 'fs';
+import { CreatorsService } from 'src/creators/creators.service';
+import { ComicsService } from 'src/comics/comics.service';
+import { CharactersService } from 'src/characters/characters.service';
 
 
 @Injectable()
 export class SeriesService {
+  constructor(private readonly creatorService: CreatorsService,
+    private readonly characterService: CharactersService,
+    private readonly comicsService: ComicsService
+  ) { }
+
   private apiKey = 'ts=1&apikey=d48b7eba9663ff346171fa4dd833116f&hash=b51089b18383b373ba39e34a64f7787a';
 
   async create(name: string) {
@@ -124,6 +132,29 @@ export class SeriesService {
     await fs.writeFile('src/series/data/creators.json', JSON.stringify(creatorsData, null, 4), 'utf-8');
   }
 
+  async saveData() {
+    const data = await fs.readFile('src/series/data/creators.json', 'utf-8')
+    const file = JSON.parse(data)
+
+    file.forEach(element => {
+      this.creatorService.create(element)
+    });
+
+    const data = await fs.readFile('src/series/data/characters.json', 'utf-8')
+    const file = JSON.parse(data)
+
+    file.forEach(element => {
+      this.characterService.create(element)
+    });
+
+    const data = await fs.readFile('src/series/data/comics.json', 'utf-8')
+    const file = JSON.parse(data)
+
+    file.forEach(element => {
+      this.comicsService.create(element)
+    });
+
+  }
 
   extractLastNumberFromURL(url: string): number {
     const matches = url.match(/\d+/g);
