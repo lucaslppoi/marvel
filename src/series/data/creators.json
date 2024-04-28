@@ -1,0 +1,165 @@
+[
+    [
+        {
+            "name": "Gabriele Dell'otto",
+            "role": "penciller (cover)",
+            "comics": [
+                {
+                    "id": 5795,
+                    "title": "Annihilation (2006) #6"
+                },
+                {
+                    "id": 5655,
+                    "title": "Annihilation (2006) #5"
+                },
+                {
+                    "id": 5529,
+                    "title": "Annihilation (2006) #4"
+                },
+                {
+                    "id": 5230,
+                    "title": "Annihilation (2006) #3"
+                },
+                {
+                    "id": 5078,
+                    "title": "Annihilation (2006) #2"
+                }
+            ]
+        }
+    ],
+    [
+        {
+            "name": "Keith Giffen",
+            "role": "writer",
+            "comics": [
+                {
+                    "id": 5795,
+                    "title": "Annihilation (2006) #6"
+                },
+                {
+                    "id": 5655,
+                    "title": "Annihilation (2006) #5"
+                },
+                {
+                    "id": 5529,
+                    "title": "Annihilation (2006) #4"
+                },
+                {
+                    "id": 5230,
+                    "title": "Annihilation (2006) #3"
+                },
+                {
+                    "id": 5078,
+                    "title": "Annihilation (2006) #2"
+                },
+                {
+                    "id": 4788,
+                    "title": "Annihilation (2006) #1"
+                }
+            ]
+        }
+    ],
+    [
+        {
+            "name": "Cory Petit",
+            "role": "letterer",
+            "comics": [
+                {
+                    "id": 5795,
+                    "title": "Annihilation (2006) #6"
+                },
+                {
+                    "id": 5655,
+                    "title": "Annihilation (2006) #5"
+                },
+                {
+                    "id": 5529,
+                    "title": "Annihilation (2006) #4"
+                },
+                {
+                    "id": 5230,
+                    "title": "Annihilation (2006) #3"
+                },
+                {
+                    "id": 5078,
+                    "title": "Annihilation (2006) #2"
+                },
+                {
+                    "id": 4788,
+                    "title": "Annihilation (2006) #1"
+                }
+            ]
+        }
+    ],
+    [
+        {
+            "name": "Vc Cory Petit",
+            "role": "letterer",
+            "comics": []
+        }
+    ],
+    [
+        {
+            "name": "Laura Villari",
+            "role": "colorist",
+            "comics": [
+                {
+                    "id": 5795,
+                    "title": "Annihilation (2006) #6"
+                },
+                {
+                    "id": 5655,
+                    "title": "Annihilation (2006) #5"
+                },
+                {
+                    "id": 5529,
+                    "title": "Annihilation (2006) #4"
+                },
+                {
+                    "id": 5230,
+                    "title": "Annihilation (2006) #3"
+                },
+                {
+                    "id": 5078,
+                    "title": "Annihilation (2006) #2"
+                },
+                {
+                    "id": 4788,
+                    "title": "Annihilation (2006) #1"
+                }
+            ]
+        }
+    ],
+    [
+        {
+            "name": "Andrea DI Vito",
+            "role": "penciller",
+            "comics": [
+                {
+                    "id": 5795,
+                    "title": "Annihilation (2006) #6"
+                },
+                {
+                    "id": 5655,
+                    "title": "Annihilation (2006) #5"
+                },
+                {
+                    "id": 5529,
+                    "title": "Annihilation (2006) #4"
+                },
+                {
+                    "id": 5230,
+                    "title": "Annihilation (2006) #3"
+                },
+                {
+                    "id": 5078,
+                    "title": "Annihilation (2006) #2"
+                },
+                {
+                    "id": 4788,
+                    "title": "Annihilation (2006) #1"
+                }
+            ]
+        }
+    ]
+]

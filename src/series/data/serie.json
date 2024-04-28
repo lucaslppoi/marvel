@@ -1,0 +1,113 @@
+{
+    "id": 3613,
+    "title": "Annihilation (2006 - 2007)",
+    "description": "Annihilus has decided the Negative Zone can't contain his thirst for conquest and brings his Annihilation Wave to bear on our galaxy! Nova, The Silver Surfer, Super-Skrull, Ronan, Drax, Thanos, Star-Lord and more must repel the seemingly unstoppable invasion in this cosmic epic!",
+    "creators": [
+        {
+            "url": "http://gateway.marvel.com/v1/public/creators/8522",
+            "id": 8522,
+            "role": "penciller (cover)"
+        },
+        {
+            "url": "http://gateway.marvel.com/v1/public/creators/400",
+            "id": 400,
+            "role": "writer"
+        },
+        {
+            "url": "http://gateway.marvel.com/v1/public/creators/361",
+            "id": 361,
+            "role": "letterer"
+        },
+        {
+            "url": "http://gateway.marvel.com/v1/public/creators/12980",
+            "id": 12980,
+            "role": "letterer"
+        },
+        {
+            "url": "http://gateway.marvel.com/v1/public/creators/475",
+            "id": 475,
+            "role": "colorist"
+        },
+        {
+            "url": "http://gateway.marvel.com/v1/public/creators/474",
+            "id": 474,
+            "role": "penciller"
+        }
+    ],
+    "comics": [
+        {
+            "url": "http://gateway.marvel.com/v1/public/comics/4788",
+            "id": 4788
+        },
+        {
+            "url": "http://gateway.marvel.com/v1/public/comics/5078",
+            "id": 5078
+        },
+        {
+            "url": "http://gateway.marvel.com/v1/public/comics/5230",
+            "id": 5230
+        },
+        {
+            "url": "http://gateway.marvel.com/v1/public/comics/5529",
+            "id": 5529
+        },
+        {
+            "url": "http://gateway.marvel.com/v1/public/comics/5655",
+            "id": 5655
+        },
+        {
+            "url": "http://gateway.marvel.com/v1/public/comics/5795",
+            "id": 5795
+        }
+    ],
+    "characters": [
+        {
+            "url": "http://gateway.marvel.com/v1/public/characters/1009154",
+            "id": 1009154
+        },
+        {
+            "url": "http://gateway.marvel.com/v1/public/characters/1010735",
+            "id": 1010735
+        },
+        {
+            "url": "http://gateway.marvel.com/v1/public/characters/1009312",
+            "id": 1009312
+        },
+        {
+            "url": "http://gateway.marvel.com/v1/public/characters/1010763",
+            "id": 1010763
+        },
+        {
+            "url": "http://gateway.marvel.com/v1/public/characters/1009451",
+            "id": 1009451
+        },
+        {
+            "url": "http://gateway.marvel.com/v1/public/characters/1009477",
+            "id": 1009477
+        },
+        {
+            "url": "http://gateway.marvel.com/v1/public/characters/1010734",
+            "id": 1010734
+        },
+        {
+            "url": "http://gateway.marvel.com/v1/public/characters/1011154",
+            "id": 1011154
+        },
+        {
+            "url": "http://gateway.marvel.com/v1/public/characters/1010344",
+            "id": 1010344
+        },
+        {
+            "url": "http://gateway.marvel.com/v1/public/characters/1009592",
+            "id": 1009592
+        },
+        {
+            "url": "http://gateway.marvel.com/v1/public/characters/1009639",
+            "id": 1009639
+        },
+        {
+            "url": "http://gateway.marvel.com/v1/public/characters/1009652",
+            "id": 1009652
+        }
+    ]
+}

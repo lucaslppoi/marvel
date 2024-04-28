@@ -12,10 +12,10 @@ export class SeriesController {
     return this.seriesService.create(name);
   }
 
-  // @Get()
-  // findAll() {
-  //   return this.seriesService.findAll();
-  // }
+  @Get()
+  findAll() {
+    return this.seriesService.mapCreators();
+  }
 
   // @Get(':id')
   // findOne(@Param('id') id: string) {

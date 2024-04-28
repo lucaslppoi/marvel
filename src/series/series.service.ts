@@ -4,87 +4,131 @@ import { UpdateSeriesDto } from './dto/update-series.dto';
 import { HttpService } from '@nestjs/axios';
 import { writeFile } from 'fs/promises';
 import { title } from 'process';
-const fs = require('fs').promises;
-const apiKey = 'ts=1&apikey=d48b7eba9663ff346171fa4dd833116f&hash=b51089b18383b373ba39e34a64f7787a'
+// const fs = require('fs').promises;
+// import * as fs from 'fs';
+import { promises as fs } from 'fs';
+import fetch from 'node-fetch';
+
 
 @Injectable()
 export class SeriesService {
   constructor(private readonly httpService: HttpService) { }
+  private apiKey = 'ts=1&apikey=d48b7eba9663ff346171fa4dd833116f&hash=b51089b18383b373ba39e34a64f7787a';
 
   async create(name: string) {
-    const data = await fetch(`https://gateway.marvel.com:443/v1/public/series?title=${name}&limit=1&${apiKey}`)
-      .then(jsonValue => jsonValue.json())
-      .then(data => {
-        return Promise.all(data.data.results.map(results => {
-          return {
-            id: results.id,
-            title: results.title,
-            creators: Promise.all(results.creators.items.map(creators => {
-              return {
-                comics: fetch(`${creators.resourceURI}?${apiKey}`)
-                  .then(jsonValue => jsonValue.json())
-                  .then(data => {
-                    return Promise.all(data.data.results.map(results => {
-                      return Promise.all(results.comics.items.map(item => {
-                        console.log(item.resourceURI)
-                        return {
-                          resourceURI: item.resourceURI,
-                          name: item.name
-                        }
-                      }))
-                    }))
-                  }),
-                name: creators.name,
-                role: creators.role
-              }
-            }))
-          };
-        }));
-      });
+    const response = await fetch(`https://gateway.marvel.com:443/v1/public/series?title=${name}&limit=1&${this.apiKey}`)
+    const data = await response.json()
 
-    await fs.writeFile('src/series/data/serie-data.json', data, (err) => {
-      if (err) {
-        console.log('erro')
-      }
-    });
-    return data
-  }
-  async createa(name: string): Promise<string> {
-    const url = `https://gateway.marvel.com:443/v1/public/series?title=${name}&limit=1&${apiKey}`;
+    const dataURLMapped = await Promise.all(data.data.results.map(async result => {
+      const characterURL = result.characters.items.map(character => {
+        return {
+          url: character.resourceURI,
+          id: this.extractLastNumberFromURL(character.resourceURI)
+        }
+      })
+      const comicsMapped = result.comics.items.map(comic => {
+        return {
+          url: comic.resourceURI,
+          id: this.extractLastNumberFromURL(comic.resourceURI)
+        }
+      })
+      const creatorsMapped = result.creators.items.map(creator => {
+        return {
+          url: creator.resourceURI,
+          id: this.extractLastNumberFromURL(creator.resourceURI),
+          role: creator.role
+        }
+      })
 
-    try {
-      const response = await this.httpService.axiosRef.get(url);
-      const results = response.data.data.results.map(result => ({
+      return {
         id: result.id,
         title: result.title,
-        creators: result.creators.items.map(async creator => ({
-          name: creator.name,
-          role: creator.role,
-          comics: await this.fetchComics(creator.resourceURI)
-        }))
-      }));
+        description: result.description,
+        creators: creatorsMapped,
+        comics: comicsMapped,
+        characters: characterURL,
+      }
+    }))
 
-      const creatorsData = await Promise.all(results.map(async result => ({
-        ...result,
-        creators: await Promise.all(result.creators)
-      })));
 
-      const data = JSON.stringify(creatorsData, null, 4);
-      await writeFile('src/series/data/serie-data.json', data);
-      return data;
-    } catch (error) {
-      console.error('Error fetching data:', error);
-      throw new Error('Failed to fetch series data');
-    }
+    await fs.writeFile('src/series/data/serie.json', JSON.stringify(dataURLMapped[0], null, 4), 'utf-8');
+
+    await this.mapComics()
+    await this.mapCharacters()
+    await this.mapCreators()
+
   }
 
-  private async fetchComics(url: string): Promise<any[]> {
-    const response = await this.httpService.axiosRef.get(`${url}?${apiKey}`);
-    console.log(url)
-    return response.data.data.results.map(comic => ({
-      resourceURI: comic.resourceURI,
-      name: comic.name
-    }));
+  async mapComics() {
+    const data = await fs.readFile('src/series/data/serie.json', 'utf-8')
+    const file = JSON.parse(data)
+
+    const comicsData = await Promise.all(file.comics.map(async comic => {
+      const comicsResponse = await fetch(`${comic.url}?${this.apiKey}`)
+      const comicsData = await comicsResponse.json()
+      return await comicsData.data.results.map(info => {
+        return {
+          title: info.title,
+          description: info.description,
+          thumbnail: info.thumbnail.path,
+        }
+      })
+
+    }))
+    await fs.writeFile('src/series/data/comics.json', JSON.stringify(comicsData, null, 4), 'utf-8');
+  }
+
+  async mapCharacters() {
+    const data = await fs.readFile('src/series/data/serie.json', 'utf-8')
+    const file = JSON.parse(data)
+
+    const charactersData = await Promise.all(file.characters.map(async character => {
+      const charactersResponse = await fetch(`${character.url}?${this.apiKey}`)
+      const charactersData = await charactersResponse.json()
+      return await charactersData.data.results.map(info => {
+        return {
+          name: info.name,
+          description: info.description,
+          thumbnail: info.thumbnail.path,
+        }
+      })
+
+    }))
+    await fs.writeFile('src/series/data/characters.json', JSON.stringify(charactersData, null, 4), 'utf-8');
+  }
+
+  async mapCreators() {
+    const data = await fs.readFile('src/series/data/serie.json', 'utf-8')
+    const file = JSON.parse(data)
+
+    const creatorsData = await Promise.all(file.creators.map(async creator => {
+      const creatorsResponse = await fetch(`${creator.url}?${this.apiKey}`)
+      const creatorsData = await creatorsResponse.json()
+
+      const creatorsComicsResponse = await fetch(`${creator.url}/comics?series=${file.id}&${this.apiKey}`)
+      const creatorsComicsData = await creatorsComicsResponse.json()
+
+      const comicsRelated = creatorsComicsData.data.results.map(comic => {
+        return {
+          id: comic.id,
+          title: comic.title
+        }
+      })
+      return creatorsData.data.results.map(info => {
+        return {
+          name: info.fullName,
+          role: creator.role,
+          comics: comicsRelated
+        }
+      })
+
+    }))
+    await fs.writeFile('src/series/data/creators.json', JSON.stringify(creatorsData, null, 4), 'utf-8');
+  }
+
+
+  extractLastNumberFromURL(url: string): number {
+    const matches = url.match(/\d+/g);
+    return parseInt(matches[matches.length - 1]);
   }
 }
-
