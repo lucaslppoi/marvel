@@ -17,7 +17,8 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json"
+    "test:e2e": "jest --config ./test/jest-e2e.json",
+    "test:cannon": "autocannon -c 500 -d 20 -w 10 -W [ -c 1 -d 3 ] --renderStatusCodes --latency http://localhost:3000/creators"
   },
   "dependencies": {
     "@nestjs/axios": "^3.0.2",
@@ -26,6 +27,7 @@
     "@nestjs/mapped-types": "*",
     "@nestjs/mongoose": "^10.0.6",
     "@nestjs/platform-express": "^10.0.0",
+    "autocannon": "^7.15.0",
     "axios": "^1.6.8",
     "mongoose": "^8.3.2",
     "reflect-metadata": "^0.2.0",
