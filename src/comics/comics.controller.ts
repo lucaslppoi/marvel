@@ -1,7 +1,42 @@
-import { Controller } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { ComicsService } from './comics.service';
+import { CreateComicsDto } from './dto/create-comics-dto';
+import { UpdateComicsDto } from './dto/update-comics-dto';
 
 @Controller('comics')
 export class ComicsController {
   constructor(private readonly comicsService: ComicsService) {}
+
+  @Post()
+  create(@Body() createComicsDto: CreateComicsDto) {
+    return this.comicsService.create(createComicsDto);
+  }
+
+  @Get()
+  findAll() {
+    return this.comicsService.findAll();
+  }
+
+  @Get(':id')
+  findById(@Param('id') id: string) {
+    return this.comicsService.findById(id);
+  }
+
+  @Patch(':id')
+  update(@Param('id') id: string, @Body() updateComicsDto: UpdateComicsDto) {
+    return this.comicsService.update(id, updateComicsDto);
+  }
+
+  @Delete(':id')
+  remove(@Param('id') id: string) {
+    return this.comicsService.remove(id);
+  }
 }

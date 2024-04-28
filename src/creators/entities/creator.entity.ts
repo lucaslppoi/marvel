@@ -5,17 +5,17 @@ export type CreatorDocument = HydratedDocument<Creator>;
 
 @Schema()
 export class Creator {
-    @Prop()
-    id: number;
+  @Prop()
+  id: number;
 
-    @Prop()
-    name: string;
+  @Prop()
+  name: string;
 
-    @Prop()
-    role: string;
+  @Prop()
+  role: string;
 
-    @Prop()
-    comics: string[];
+  @Prop()
+  comics: string[];
 }
 
 export const CreatorSchema = SchemaFactory.createForClass(Creator);
