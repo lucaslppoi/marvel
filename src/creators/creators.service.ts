@@ -9,7 +9,7 @@ import { InjectModel } from '@nestjs/mongoose';
 export class CreatorsService {
   constructor(
     @InjectModel(Creator.name) private creatorModel: Model<Creator>,
-  ) {}
+  ) { }
 
   async create(createCreatorDto: CreateCreatorDto): Promise<Creator> {
     const createdCreator = new this.creatorModel(createCreatorDto);
