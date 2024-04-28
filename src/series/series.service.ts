@@ -133,26 +133,26 @@ export class SeriesService {
   }
 
   async saveData() {
-    const data = await fs.readFile('src/series/data/creators.json', 'utf-8')
-    const file = JSON.parse(data)
+    const dataCreator = await fs.readFile('src/series/data/creators.json', 'utf-8')
+    const fileCreator = JSON.parse(dataCreator)
 
-    file.forEach(element => {
+    fileCreator.forEach(element => {
       this.creatorService.create(element)
     });
 
-    const data = await fs.readFile('src/series/data/characters.json', 'utf-8')
-    const file = JSON.parse(data)
+    // const data = await fs.readFile('src/series/data/characters.json', 'utf-8')
+    // const file = JSON.parse(data)
 
-    file.forEach(element => {
-      this.characterService.create(element)
-    });
+    // file.forEach(element => {
+    //   this.characterService.create(element)
+    // });
 
-    const data = await fs.readFile('src/series/data/comics.json', 'utf-8')
-    const file = JSON.parse(data)
+    // const data = await fs.readFile('src/series/data/comics.json', 'utf-8')
+    // const file = JSON.parse(data)
 
-    file.forEach(element => {
-      this.comicsService.create(element)
-    });
+    // file.forEach(element => {
+    //   this.comicsService.create(element)
+    // });
 
   }
 
