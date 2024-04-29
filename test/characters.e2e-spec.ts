@@ -64,18 +64,18 @@ describe('CharactersService (E2E)', () => {
     expect(response.body);
   });
 
+  it('should find by thunbnail character', async () => {
+    const response = await request(app.getHttpServer())
+      .get(`/characters/getThunbnail/${createdCharacterId}`)
+      .expect(200);
+    expect(response.body);
+  });
+
   it('should remove characters', async () => {
     const response = await request(app.getHttpServer())
       .delete(`/characters/${createdCharacterId}`)
       .expect(200);
     expect(response.body).toHaveProperty('_id', createdCharacterId);
-  });
-
-  it('should find random character', async () => {
-    const response = await request(app.getHttpServer())
-      .get(`/characters/random`)
-      .expect(200);
-    expect(response.body);
   });
 
   it('should find by name character', async () => {

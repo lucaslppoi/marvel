@@ -42,7 +42,7 @@ export class CreatorsController {
     return this.creatorsService.remove(id);
   }
 
-  @Delete(':id')
+  @Get('/findComicsByCreator/:id')
   findComicsByCreator(@Param('id') id: string) {
     return this.creatorsService.findComicsByCreator(id);
   }

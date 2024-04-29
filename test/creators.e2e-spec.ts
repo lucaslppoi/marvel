@@ -64,6 +64,13 @@ describe('CreatorsService (E2E)', () => {
     expect(response.body);
   });
 
+  it('should find comics by creators', async () => {
+    const response = await request(app.getHttpServer())
+      .get(`/creators/findComicsByCreator/${createdCreatorId}`)
+      .expect(200);
+    expect(response.body);
+  });
+
   it('should remove creators', async () => {
     const response = await request(app.getHttpServer())
       .delete(`/creators/${createdCreatorId}`)
