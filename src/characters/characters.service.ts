@@ -36,7 +36,7 @@ export class CharactersService {
   }
 
   async findRandomly(): Promise<Characters> {
-    const allCharacters = await this.characterModel.find().exec();
+    const allCharacters = await this.findAll();
     return allCharacters[Math.floor(Math.random() * allCharacters.length)];
   }
 

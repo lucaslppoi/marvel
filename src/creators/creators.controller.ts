@@ -27,7 +27,7 @@ export class CreatorsController {
     return this.creatorsService.findAll();
   }
 
-  @Get('/id/:id')
+  @Get(':id')
   findById(@Param('id') id: string) {
     return this.creatorsService.findById(id);
   }
