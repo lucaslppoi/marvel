@@ -11,7 +11,7 @@ import { CharactersModule } from './characters/characters.module';
     SeriesModule,
     CreatorsModule,
     ComicsModule,
-    CharactersModule
+    CharactersModule,
   ],
 })
-export class AppModule { }
+export class AppModule {}

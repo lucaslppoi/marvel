@@ -1,131 +1,163 @@
 import { Injectable } from '@nestjs/common';
 import { promises as fs } from 'fs';
-import { CreatorsService } from 'src/creators/creators.service';
-import { ComicsService } from 'src/comics/comics.service';
-import { CharactersService } from 'src/characters/characters.service';
-
+import { CreatorsService } from '../creators/creators.service';
+import { ComicsService } from '../comics/comics.service';
+import { CharactersService } from '../characters/characters.service';
 
 @Injectable()
 export class SeriesService {
-  constructor(private readonly creatorService: CreatorsService,
+  constructor(
+    private readonly creatorService: CreatorsService,
     private readonly characterService: CharactersService,
-    private readonly comicsService: ComicsService
-  ) { }
+    private readonly comicsService: ComicsService,
+  ) {}
 
-  private apiKey = 'ts=1&apikey=d48b7eba9663ff346171fa4dd833116f&hash=b51089b18383b373ba39e34a64f7787a';
+  private apiKey =
+    'ts=1&apikey=d48b7eba9663ff346171fa4dd833116f&hash=b51089b18383b373ba39e34a64f7787a';
 
   async getFromMarvel(name: string) {
-    const response = await fetch(`https://gateway.marvel.com:443/v1/public/series?title=${name}&limit=1&${this.apiKey}`)
+    const response = await fetch(
+      `https://gateway.marvel.com:443/v1/public/series?title=${name}&limit=1&${this.apiKey}`,
+    );
     const data = await response.json();
     const dataURLMapped = await this.mapSerie(data);
-    await fs.writeFile('src/series/data/serie.json', JSON.stringify(dataURLMapped[0], null, 4), 'utf-8');
+    await fs.writeFile(
+      'src/series/data/serie.json',
+      JSON.stringify(dataURLMapped[0], null, 4),
+      'utf-8',
+    );
 
-    await Promise.all([this.mapComics(), this.mapCharacters(), this.mapCreators()]);
+    await Promise.all([
+      this.mapComics(),
+      this.mapCharacters(),
+      this.mapCreators(),
+    ]);
   }
 
   private async mapSerie(data: any) {
-    const dataURLMapped = await Promise.all(data.data.results.map(async result => {
-      const characterURL = result.characters.items.map(character => {
-        return {
-          url: character.resourceURI,
-          id: this.extractLastNumberFromURL(character.resourceURI)
-        }
-      })
-      const comicsMapped = result.comics.items.map(comic => {
-        return {
-          url: comic.resourceURI,
-          id: this.extractLastNumberFromURL(comic.resourceURI)
-        }
-      })
-      const creatorsMapped = result.creators.items.map(creator => {
-        return {
-          url: creator.resourceURI,
-          id: this.extractLastNumberFromURL(creator.resourceURI),
-          role: creator.role
-        }
-      })
+    const dataURLMapped = await Promise.all(
+      data.data.results.map(async (result) => {
+        const characterURL = result.characters.items.map((character) => {
+          return {
+            url: character.resourceURI,
+            id: this.extractLastNumberFromURL(character.resourceURI),
+          };
+        });
+        const comicsMapped = result.comics.items.map((comic) => {
+          return {
+            url: comic.resourceURI,
+            id: this.extractLastNumberFromURL(comic.resourceURI),
+          };
+        });
+        const creatorsMapped = result.creators.items.map((creator) => {
+          return {
+            url: creator.resourceURI,
+            id: this.extractLastNumberFromURL(creator.resourceURI),
+            role: creator.role,
+          };
+        });
 
-      return {
-        id: result.id,
-        title: result.title,
-        description: result.description,
-        creators: creatorsMapped,
-        comics: comicsMapped,
-        characters: characterURL,
-      }
-    }))
+        return {
+          id: result.id,
+          title: result.title,
+          description: result.description,
+          creators: creatorsMapped,
+          comics: comicsMapped,
+          characters: characterURL,
+        };
+      }),
+    );
 
-    return dataURLMapped
+    return dataURLMapped;
   }
 
   async mapComics() {
-    const data = await fs.readFile('src/series/data/serie.json', 'utf-8')
-    const file = JSON.parse(data)
+    const data = await fs.readFile('src/series/data/serie.json', 'utf-8');
+    const file = JSON.parse(data);
 
-    const comicsData = await Promise.all(file.comics.map(async comic => {
-      const comicsResponse = await fetch(`${comic.url}?${this.apiKey}`)
-      const comicsData = await comicsResponse.json()
-      return await comicsData.data.results.map(info => {
-        return {
-          id: info.id,
-          title: info.title,
-          description: info.description,
-          thumbnail: info.thumbnail.path,
-        }
-      })
-
-    }))
-    await fs.writeFile('src/series/data/comics.json', JSON.stringify(comicsData, null, 4), 'utf-8');
+    const comicsData = await Promise.all(
+      file.comics.map(async (comic) => {
+        const comicsResponse = await fetch(`${comic.url}?${this.apiKey}`);
+        const comicsData = await comicsResponse.json();
+        return await comicsData.data.results.map((info) => {
+          return {
+            id: info.id,
+            title: info.title,
+            description: info.description,
+            thumbnail: info.thumbnail.path,
+          };
+        });
+      }),
+    );
+    await fs.writeFile(
+      'src/series/data/comics.json',
+      JSON.stringify(comicsData, null, 4),
+      'utf-8',
+    );
   }
 
   async mapCharacters() {
-    const data = await fs.readFile('src/series/data/serie.json', 'utf-8')
-    const file = JSON.parse(data)
+    const data = await fs.readFile('src/series/data/serie.json', 'utf-8');
+    const file = JSON.parse(data);
 
-    const charactersData = await Promise.all(file.characters.map(async character => {
-      const charactersResponse = await fetch(`${character.url}?${this.apiKey}`)
-      const charactersData = await charactersResponse.json()
-      return await charactersData.data.results.map(info => {
-        return {
-          id: info.id,
-          name: info.name,
-          description: info.description,
-          thumbnail: info.thumbnail.path,
-        }
-      })
-
-    }))
-    await fs.writeFile('src/series/data/characters.json', JSON.stringify(charactersData, null, 4), 'utf-8');
+    const charactersData = await Promise.all(
+      file.characters.map(async (character) => {
+        const charactersResponse = await fetch(
+          `${character.url}?${this.apiKey}`,
+        );
+        const charactersData = await charactersResponse.json();
+        return await charactersData.data.results.map((info) => {
+          return {
+            id: info.id,
+            name: info.name,
+            description: info.description,
+            thumbnail: info.thumbnail.path,
+          };
+        });
+      }),
+    );
+    await fs.writeFile(
+      'src/series/data/characters.json',
+      JSON.stringify(charactersData, null, 4),
+      'utf-8',
+    );
   }
 
   async mapCreators() {
-    const data = await fs.readFile('src/series/data/serie.json', 'utf-8')
-    const file = JSON.parse(data)
+    const data = await fs.readFile('src/series/data/serie.json', 'utf-8');
+    const file = JSON.parse(data);
 
-    const creatorsData = await Promise.all(file.creators.map(async creator => {
-      const creatorsResponse = await fetch(`${creator.url}?${this.apiKey}`)
-      const creatorsData = await creatorsResponse.json()
+    const creatorsData = await Promise.all(
+      file.creators.map(async (creator) => {
+        const creatorsResponse = await fetch(`${creator.url}?${this.apiKey}`);
+        const creatorsData = await creatorsResponse.json();
 
-      const creatorsComicsResponse = await fetch(`${creator.url}/comics?series=${file.id}&${this.apiKey}`)
-      const creatorsComicsData = await creatorsComicsResponse.json()
+        const creatorsComicsResponse = await fetch(
+          `${creator.url}/comics?series=${file.id}&${this.apiKey}`,
+        );
+        const creatorsComicsData = await creatorsComicsResponse.json();
 
-      const comicsRelated = creatorsComicsData.data.results.map(comic => {
-        return {
-          id: comic.id,
-          title: comic.title
-        }
-      })
-      return creatorsData.data.results.map(info => {
-        return {
-          id: info.id,
-          name: info.fullName,
-          role: creator.role,
-          comics: comicsRelated
-        }
-      })
-
-    }))
-    await fs.writeFile('src/series/data/creators.json', JSON.stringify(creatorsData, null, 4), 'utf-8');
+        const comicsRelated = creatorsComicsData.data.results.map((comic) => {
+          return {
+            id: comic.id,
+            title: comic.title,
+          };
+        });
+        return creatorsData.data.results.map((info) => {
+          return {
+            id: info.id,
+            name: info.fullName,
+            role: creator.role,
+            comics: comicsRelated,
+          };
+        });
+      }),
+    );
+    await fs.writeFile(
+      'src/series/data/creators.json',
+      JSON.stringify(creatorsData, null, 4),
+      'utf-8',
+    );
   }
 
   async saveData() {
@@ -139,18 +171,24 @@ export class SeriesService {
       await this.creatorService.create(element[0]);
     });
 
-    const dataCharacter = await fs.readFile('src/series/data/characters.json', 'utf-8')
-    const fileCharacter = JSON.parse(dataCharacter)
+    const dataCharacter = await fs.readFile(
+      'src/series/data/characters.json',
+      'utf-8',
+    );
+    const fileCharacter = JSON.parse(dataCharacter);
 
     fileCharacter.forEach(async (element) => {
-      await this.characterService.create(element[0])
+      await this.characterService.create(element[0]);
     });
 
-    const dataComics = await fs.readFile('src/series/data/comics.json', 'utf-8')
-    const fileComics = JSON.parse(dataComics)
+    const dataComics = await fs.readFile(
+      'src/series/data/comics.json',
+      'utf-8',
+    );
+    const fileComics = JSON.parse(dataComics);
 
     fileComics.forEach(async (element) => {
-      await this.comicsService.create(element[0])
+      await this.comicsService.create(element[0]);
     });
   }
 
